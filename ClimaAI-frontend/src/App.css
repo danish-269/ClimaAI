@@ -1,0 +1,2369 @@
+/* =========================================================
+   ClimaAI
+   Responsive Weather + AI Dashboard
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+
+  background: #081929;
+  color: #f4f7fb;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at 50% 0%,
+      rgba(63, 126, 218, 0.08),
+      transparent 35%),
+    #081929;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.header {
+  width: min(1050px, calc(100% - 32px));
+  margin: 0 auto;
+
+  padding: 24px 0 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 25px;
+
+  background: transparent;
+
+  border-bottom: 1px solid #1b3046;
+}
+
+/* =========================================================
+   BRAND / LOGO
+   ========================================================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  background: transparent;
+}
+
+/*
+ * The logo is a JPG with a baked-in dark background.
+ *
+ * screen blending removes most of the dark rectangular
+ * appearance against the dark ClimaAI dashboard while
+ * keeping the bright logo elements visible.
+ */
+.brand-logo {
+  display: block;
+
+  width: 285px;
+  height: auto;
+
+  object-fit: contain;
+
+  background: transparent;
+
+  border: none;
+
+  box-shadow: none;
+
+  mix-blend-mode: normal;
+
+  border-radius: 0;
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.brand-logo:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   HEADER STATUS
+   ========================================================= */
+
+.header-status {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #8ea5bd;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #4dd49a;
+
+  box-shadow:
+    0 0 10px rgba(77, 212, 154, 0.55);
+}
+
+/* =========================================================
+   MAIN
+   ========================================================= */
+
+.main {
+  width: min(1050px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  padding: 78px 0 50px;
+
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+
+  color: #5f9cff;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.22em;
+
+  text-transform: uppercase;
+}
+
+.hero h2 {
+  margin: 0;
+
+  font-size: clamp(40px, 5vw, 58px);
+
+  line-height: 1.03;
+
+  font-weight: 760;
+
+  letter-spacing: -0.045em;
+}
+
+.hero h2 span {
+  color: #69a0ff;
+}
+
+.hero-text {
+  max-width: 720px;
+
+  margin: 22px auto 30px;
+
+  color: #8ca4bc;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-box {
+  width: min(670px, 100%);
+
+  min-height: 54px;
+
+  margin: 0 auto;
+
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  border: 1px solid #294766;
+
+  border-radius: 15px;
+
+  background: #091a2b;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.16);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: #4b8ce8;
+
+  box-shadow:
+    0 0 0 3px rgba(75, 140, 232, 0.1);
+}
+
+.search-icon {
+  padding-left: 13px;
+
+  color: #7190ad;
+
+  font-size: 20px;
+
+  line-height: 1;
+}
+
+.search-box input {
+  min-width: 0;
+
+  flex: 1;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #f2f6fa;
+
+  font-size: 15px;
+
+  padding: 12px 4px;
+}
+
+.search-box input::placeholder {
+  color: #607994;
+}
+
+.search-box button {
+  min-height: 42px;
+
+  padding: 0 22px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #4385e8;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 750;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.search-box button:hover {
+  background: #5292ef;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(67, 133, 232, 0.2);
+}
+
+.search-box button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.error-message {
+  max-width: 670px;
+
+  margin: 16px auto 0;
+
+  padding: 13px 16px;
+
+  border: 1px solid #613d4b;
+
+  border-radius: 10px;
+
+  background: #21131a;
+
+  color: #f0a5b7;
+
+  font-size: 13px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   WEATHER GRID
+   ========================================================= */
+
+.weather-grid {
+  display: grid;
+
+  /*
+   * Three dashboard cards:
+   * Current Weather
+   * Weather Status
+   * Air Quality
+   */
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.weather-card {
+  min-width: 0;
+
+  padding: 28px 24px 24px;
+
+  border: 1px solid #203b57;
+
+  border-radius: 16px;
+
+  background: #0b1d30;
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.weather-card:hover {
+  border-color: #2b4b6a;
+}
+
+/* =========================================================
+   CURRENT WEATHER
+   ========================================================= */
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.label {
+  margin: 0 0 12px;
+
+  color: #5f9cff;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.assistant .label {
+  text-transform: none;
+}
+
+.main-weather h3 {
+  margin: 0;
+
+  font-size: 21px;
+
+  line-height: 1.25;
+
+  font-weight: 750;
+
+  letter-spacing: -0.02em;
+}
+
+.muted {
+  margin: 7px 0 0;
+
+  color: #8299b1;
+
+  font-size: 12px;
+}
+
+.weather-icon {
+  font-size: 39px;
+
+  line-height: 1;
+}
+
+.temperature {
+  margin: 40px 0 8px;
+
+  text-align: center;
+
+  color: #f5f8fc;
+
+  font-size: clamp(55px, 7vw, 70px);
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: -0.055em;
+}
+
+.temperature span {
+  margin-left: 5px;
+
+  color: #8ba4bd;
+
+  font-size: 19px;
+
+  font-weight: 500;
+
+  vertical-align: 15px;
+}
+
+.condition {
+  margin: 0 0 27px;
+
+  text-align: center;
+
+  color: #91a9c1;
+
+  font-size: 14px;
+}
+
+.weather-details {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  padding: 20px 0;
+
+  border-top: 1px solid #1d354d;
+
+  border-bottom: 1px solid #1d354d;
+
+  text-align: center;
+}
+
+.weather-details div,
+.extra-weather div {
+  min-width: 0;
+}
+
+.weather-details span,
+.extra-weather span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #718aa4;
+
+  font-size: 11px;
+}
+
+.weather-details strong,
+.extra-weather strong {
+  display: block;
+
+  color: #edf3f9;
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+.extra-weather {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  padding-top: 20px;
+
+  text-align: center;
+}
+
+/* =========================================================
+   WEATHER STATUS
+   ========================================================= */
+
+.ai-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+}
+
+.ai-icon {
+  width: 37px;
+  height: 37px;
+
+  flex: 0 0 auto;
+
+  border: 1px solid #2c5075;
+
+  border-radius: 10px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #102842;
+
+  color: #69a0ff;
+
+  font-size: 17px;
+}
+
+.ai-title .label {
+  margin-bottom: 9px;
+}
+
+.ai-title h3 {
+  margin: 0;
+
+  font-size: 18px;
+
+  font-weight: 750;
+}
+
+.ai-message {
+  margin: 25px 0 18px;
+
+  color: #91a8bf;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+.ai-message strong {
+  color: #edf3f9;
+}
+
+.recommendation {
+  padding: 14px;
+
+  border: 1px solid #23574d;
+
+  border-radius: 10px;
+
+  background: #0d2730;
+
+  color: #94b9b1;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+.recommendation span {
+  margin-right: 8px;
+
+  color: #4bd39a;
+
+  font-weight: 800;
+}
+
+.risk-list {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.risk-list div {
+  padding: 18px 12px;
+
+  border: 1px solid #213c57;
+
+  border-radius: 10px;
+
+  background: #091b2d;
+
+  text-align: center;
+}
+
+.risk-list span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #7189a3;
+
+  font-size: 11px;
+}
+
+.risk-list strong {
+  color: #edf3f9;
+
+  font-size: 14px;
+}
+
+/* =========================================================
+   AIR QUALITY
+   ========================================================= */
+
+.air-quality-card {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.air-quality-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 150px;
+  height: 150px;
+
+  right: -70px;
+  bottom: -80px;
+
+  border-radius: 50%;
+
+  background: rgba(91, 157, 255, 0.05);
+
+  pointer-events: none;
+}
+
+.aqi-main {
+  margin-top: 25px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.aqi-number {
+  color: #f5f8fc;
+
+  font-size: 52px;
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.045em;
+}
+
+.aqi-status {
+  max-width: 170px;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(100, 160, 220, 0.35);
+
+  border-radius: 999px;
+
+  background: rgba(45, 95, 165, 0.16);
+
+  color: #8fc0ff;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  line-height: 1.35;
+
+  letter-spacing: 0.06em;
+
+  text-align: center;
+
+  text-transform: uppercase;
+}
+
+.aqi-details {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 28px;
+}
+
+.aqi-details>div {
+  min-width: 0;
+
+  padding: 14px 12px;
+
+  border: 1px solid #213c57;
+
+  border-radius: 10px;
+
+  background: #091b2d;
+}
+
+.aqi-details span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #7189a3;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.07em;
+
+  text-transform: uppercase;
+}
+
+.aqi-details strong {
+  display: block;
+
+  color: #edf3f9;
+
+  font-size: 14px;
+
+  font-weight: 750;
+
+  white-space: nowrap;
+}
+
+.aqi-details small {
+  color: #7e96ae;
+
+  font-size: 9px;
+
+  font-weight: 500;
+}
+
+.aqi-note {
+  margin: 17px 0 0;
+
+  color: #7e96ae;
+
+  font-size: 11px;
+
+  line-height: 1.55;
+}
+
+.aqi-unavailable {
+  margin-top: 25px;
+
+  padding: 18px 14px;
+
+  border: 1px solid #213c57;
+
+  border-radius: 10px;
+
+  background: #091b2d;
+
+  color: #8299b1;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+.section {
+  margin-top: 18px;
+}
+
+.section-heading {
+  margin-bottom: 12px;
+}
+
+.section-heading h3 {
+  margin: 0;
+
+  font-size: 19px;
+
+  font-weight: 750;
+}
+
+/* =========================================================
+   FORECAST
+   ========================================================= */
+
+.forecast-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.forecast-card {
+  min-width: 0;
+
+  padding: 16px 9px 15px;
+
+  border: 1px solid #203b57;
+
+  border-radius: 14px;
+
+  background: #0b1d30;
+
+  text-align: center;
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.forecast-card:hover {
+  transform: translateY(-2px);
+
+  border-color: #315779;
+}
+
+.forecast-day {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #89a1b9;
+
+  font-size: 11px;
+
+  font-weight: 650;
+}
+
+.forecast-icon {
+  min-height: 33px;
+
+  margin-bottom: 10px;
+
+  font-size: 26px;
+
+  line-height: 1;
+}
+
+.forecast-temp {
+  white-space: nowrap;
+}
+
+.forecast-temp strong {
+  color: #f1f5fa;
+
+  font-size: 15px;
+
+  font-weight: 750;
+}
+
+.forecast-temp span {
+  color: #718aa4;
+
+  font-size: 11px;
+}
+
+.forecast-card small {
+  display: block;
+
+  min-height: 31px;
+
+  margin-top: 7px;
+
+  color: #8ca4bb;
+
+  font-size: 10px;
+
+  line-height: 1.4;
+}
+
+.rain-info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 12px;
+}
+
+.rain-info>span {
+  flex: 0 0 auto;
+
+  font-size: 10px;
+}
+
+.rain-bar {
+  flex: 1;
+
+  height: 4px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #1c334b;
+}
+
+.rain-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #4f91ed;
+}
+
+.rain-info strong {
+  flex: 0 0 auto;
+
+  color: #6ca2fa;
+
+  font-size: 10px;
+}
+
+.rain-label {
+  margin: 8px 0 0;
+
+  color: #7088a1;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   TEMPERATURE TREND
+   ========================================================= */
+
+.temperature-trend {
+  margin-top: 18px;
+
+  padding: 27px 18px 18px;
+
+  border: 1px solid #203b57;
+
+  border-radius: 16px;
+
+  background: #0b1d30;
+
+  overflow: hidden;
+}
+
+.trend-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  padding: 0 2px;
+}
+
+.trend-header .label {
+  margin-bottom: 12px;
+}
+
+.trend-header h4 {
+  margin: 0;
+
+  font-size: 18px;
+
+  font-weight: 750;
+}
+
+.trend-header>span {
+  color: #829ab2;
+
+  font-size: 11px;
+}
+
+.trend-chart {
+  width: 100%;
+
+  margin-top: 17px;
+
+  overflow: hidden;
+}
+
+.trend-svg {
+  width: 100%;
+
+  min-height: 230px;
+
+  display: block;
+}
+
+.chart-grid-line {
+  stroke: #193149;
+
+  stroke-width: 1;
+
+  stroke-dasharray: 5 5;
+}
+
+.temperature-line {
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+.high-line {
+  stroke: #5e9cff;
+
+  stroke-width: 3;
+}
+
+.low-line {
+  stroke: #7186e8;
+
+  stroke-width: 2;
+
+  stroke-dasharray: 7 6;
+}
+
+.temperature-dot {
+  stroke: #0b1d30;
+
+  stroke-width: 2;
+}
+
+.high-dot {
+  fill: #5e9cff;
+}
+
+.low-dot {
+  fill: #7186e8;
+}
+
+.temperature-label {
+  font-family: inherit;
+}
+
+.high-label {
+  fill: #f1f5fa;
+
+  font-size: 12px;
+
+  font-weight: 750;
+}
+
+.low-label {
+  fill: #93a7c1;
+
+  font-size: 11px;
+}
+
+.chart-day {
+  fill: #7d96af;
+
+  font-size: 11px;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+  margin-top: 18px;
+
+  padding: 58px 25px;
+
+  border: 1px dashed #29445f;
+
+  border-radius: 16px;
+
+  background: #091a2b;
+
+  text-align: center;
+}
+
+.empty-state>div {
+  margin-bottom: 14px;
+
+  font-size: 34px;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px;
+
+  font-size: 20px;
+}
+
+.empty-state p {
+  margin: 0;
+
+  color: #849cb4;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   AI ASSISTANT
+   ========================================================= */
+
+.assistant {
+  margin-top: 40px;
+
+  padding: 42px 52px;
+
+  border: 1px solid #203b57;
+
+  border-radius: 16px;
+
+  background:
+    radial-gradient(circle at 50% 0%,
+      rgba(67, 133, 232, 0.06),
+      transparent 45%),
+    #091a2b;
+
+  text-align: center;
+}
+
+.assistant-content>.label {
+  margin-bottom: 14px;
+}
+
+.assistant h3 {
+  margin: 0;
+
+  font-size: 23px;
+
+  line-height: 1.25;
+
+  font-weight: 750;
+}
+
+.assistant-content>p:not(.label):not(.error-message) {
+  margin: 11px auto 22px;
+
+  color: #849cb5;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+/* =========================================================
+   LANGUAGE SELECTOR
+   ========================================================= */
+
+.language-selector {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 12px;
+
+  margin: 18px 0 12px;
+}
+
+.language-selector label {
+  font-size: 14px;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+.language-selector select {
+  min-width: 150px;
+
+  padding: 10px 14px;
+
+  border: 1px solid rgba(100, 160, 220, 0.35);
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: rgba(10, 30, 50, 0.8);
+
+  color: #f4f7fb;
+
+  font-size: 14px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.language-selector select:hover {
+  border-color: rgba(100, 160, 220, 0.6);
+}
+
+.language-selector select:focus {
+  border-color: rgba(100, 160, 220, 0.8);
+
+  box-shadow:
+    0 0 0 3px rgba(75, 140, 232, 0.08);
+}
+
+.language-selector option {
+  background: #091a2b;
+
+  color: #f4f7fb;
+}
+
+/* =========================================================
+   AI FORM
+   ========================================================= */
+
+.ai-form {
+  max-width: 850px;
+
+  margin: 0 auto;
+
+  display: flex;
+
+  align-items: stretch;
+
+  gap: 9px;
+}
+
+/* =========================================================
+   VOICE INPUT WRAPPER
+   ========================================================= */
+
+.voice-input-wrapper {
+  position: relative;
+
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+}
+
+.voice-input-wrapper input {
+  width: 100%;
+
+  height: 46px;
+
+  min-width: 0;
+
+  padding: 0 52px 0 15px;
+
+  border: 1px solid #2b5279;
+
+  border-radius: 10px;
+
+  outline: none;
+
+  background: #071727;
+
+  color: #f1f5fa;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.voice-input-wrapper input:focus {
+  border-color: #4c8fe9;
+
+  box-shadow:
+    0 0 0 3px rgba(76, 143, 233, 0.1);
+}
+
+.voice-input-wrapper input::placeholder {
+  color: #607994;
+}
+
+/* =========================================================
+   MICROPHONE BUTTON
+   ========================================================= */
+
+.voice-button {
+  position: absolute;
+
+  right: 7px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  width: 34px;
+
+  height: 34px;
+
+  min-width: 34px;
+
+  min-height: 34px;
+
+  padding: 0;
+
+  margin: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(100, 170, 255, 0.45);
+
+  border-radius: 50%;
+
+  background: rgba(30, 70, 120, 0.55);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 3px 10px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.voice-button:hover {
+  transform: translateY(-50%) scale(1.06);
+
+  background: rgba(45, 95, 165, 0.8);
+
+  border-color: rgba(120, 190, 255, 0.8);
+
+  box-shadow:
+    0 0 18px rgba(70, 150, 255, 0.25);
+}
+
+.voice-button:focus-visible {
+  outline: 2px solid rgba(105, 160, 255, 0.8);
+
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   MICROPHONE SVG
+   ========================================================= */
+
+.mic-svg {
+  width: 17px;
+
+  height: 17px;
+
+  fill: none;
+
+  stroke: currentColor;
+
+  stroke-width: 1.8;
+
+  stroke-linecap: round;
+
+  stroke-linejoin: round;
+}
+
+/* =========================================================
+   LISTENING STATE
+   ========================================================= */
+
+.voice-button.listening {
+  background: rgba(180, 55, 70, 0.85);
+
+  border-color: rgba(255, 130, 145, 0.9);
+
+  animation: micPulse 1.3s infinite;
+}
+
+.voice-button.listening:hover {
+  background: rgba(200, 65, 80, 0.95);
+}
+
+.mic-listening-icon {
+  font-size: 14px;
+
+  line-height: 1;
+
+  color: white;
+
+  animation: listeningDot 1s infinite;
+}
+
+@keyframes micPulse {
+  0% {
+    box-shadow:
+      0 0 0 0 rgba(255, 90, 105, 0.35);
+  }
+
+  70% {
+    box-shadow:
+      0 0 0 10px rgba(255, 90, 105, 0);
+  }
+
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(255, 90, 105, 0);
+  }
+}
+
+@keyframes listeningDot {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.voice-button:disabled {
+  cursor: not-allowed;
+
+  opacity: 0.65;
+}
+
+/* =========================================================
+   AI SUBMIT BUTTON
+   ========================================================= */
+
+.ai-submit-button {
+  flex-shrink: 0;
+
+  min-width: 135px;
+
+  height: 46px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #4385e8;
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: 750;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ai-submit-button:hover {
+  background: #5292ef;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(67, 133, 232, 0.2);
+}
+
+.ai-submit-button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+}
+
+/* =========================================================
+   VOICE STATUS
+   ========================================================= */
+
+.voice-status {
+  margin-top: 10px;
+
+  font-size: 14px;
+
+  opacity: 0.85;
+
+  text-align: center;
+}
+
+/* =========================================================
+   QUICK QUESTIONS
+   ========================================================= */
+
+.quick-questions {
+  margin-top: 21px;
+}
+
+.quick-label {
+  display: block;
+
+  margin-bottom: 11px;
+
+  color: #7189a2;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  text-transform: uppercase;
+}
+
+.quick-question-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.quick-question-list button {
+  padding: 10px 14px;
+
+  border: 1px solid #28445f;
+
+  border-radius: 999px;
+
+  background: transparent;
+
+  color: #91a8bf;
+
+  font-size: 12px;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.quick-question-list button:hover {
+  border-color: #4a78a8;
+
+  background: #0e263d;
+
+  color: #dce8f3;
+
+  transform: translateY(-1px);
+}
+
+.quick-question-list button:disabled {
+  opacity: 0.6;
+
+  cursor: wait;
+}
+
+/* =========================================================
+   AI ERROR
+   ========================================================= */
+
+.assistant .error-message {
+  margin-top: 18px;
+}
+
+/* =========================================================
+   AI RESPONSE
+   ========================================================= */
+
+.ai-response {
+  max-width: 850px;
+
+  margin: 20px auto 0;
+
+  padding: 25px;
+
+  border: 1px solid #294d72;
+
+  border-radius: 14px;
+
+  background: #0c2034;
+
+  text-align: center;
+}
+
+.response-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+.response-header span:first-child {
+  color: #6ca2fa;
+
+  font-size: 13px;
+
+  font-weight: 750;
+}
+
+.response-header span:last-child {
+  padding-left: 12px;
+
+  border-left: 1px solid #31516e;
+
+  color: #91a9c1;
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   AI ANSWER BOX
+   ========================================================= */
+
+.ai-answer-box {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 14px;
+
+  max-width: 730px;
+
+  margin: 0 auto;
+
+  padding: 19px;
+
+  border: 1px solid #213e5b;
+
+  border-radius: 12px;
+
+  background: #091a2c;
+
+  text-align: left;
+}
+
+.answer-icon {
+  width: 38px;
+
+  height: 38px;
+
+  flex: 0 0 auto;
+
+  border-radius: 10px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #102842;
+
+  font-size: 18px;
+}
+
+.answer-label {
+  margin: 0 0 7px;
+
+  color: #5f9cff;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+}
+
+.response-answer {
+  margin: 0;
+
+  color: #d9e4ee;
+
+  font-size: 15px;
+
+  line-height: 1.75;
+}
+
+/* =========================================================
+   AI RESPONSE STATS
+   ========================================================= */
+
+.response-stats {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 9px;
+
+  margin-top: 18px;
+}
+
+.response-stats>div {
+  min-width: 0;
+
+  padding: 14px 8px;
+
+  border: 1px solid #213e5b;
+
+  border-radius: 9px;
+
+  background: #091a2c;
+}
+
+.response-stats span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #738ca6;
+
+  font-size: 10px;
+}
+
+.response-stats strong {
+  display: block;
+
+  color: #edf3f9;
+
+  font-size: 13px;
+
+  font-weight: 750;
+}
+
+.response-stats .high {
+  border-color: rgba(231, 113, 113, 0.35);
+}
+
+.response-stats .medium {
+  border-color: rgba(238, 185, 92, 0.35);
+}
+
+.response-stats .low {
+  border-color: rgba(77, 212, 154, 0.3);
+}
+
+/* =========================================================
+   RISK OVERVIEW
+   ========================================================= */
+
+.risk-overview {
+  margin-top: 22px;
+
+  padding-top: 22px;
+
+  border-top: 1px solid #1d354d;
+
+  text-align: left;
+}
+
+.risk-overview-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.risk-overview-header .label {
+  margin-bottom: 8px;
+}
+
+.risk-overview-header h4 {
+  margin: 0;
+
+  font-size: 17px;
+
+  font-weight: 750;
+}
+
+.risk-live {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  color: #6fa88f;
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.08em;
+}
+
+.risk-live span {
+  width: 6px;
+
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #4dd49a;
+
+  box-shadow:
+    0 0 8px rgba(77, 212, 154, 0.5);
+}
+
+.risk-overview-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 9px;
+
+  margin-top: 13px;
+}
+
+.overview-risk {
+  display: flex;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 14px;
+
+  border: 1px solid #213c57;
+
+  border-radius: 10px;
+
+  background: #0b1d30;
+}
+
+.overview-icon {
+  width: 35px;
+
+  height: 35px;
+
+  flex: 0 0 auto;
+
+  border-radius: 9px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #102842;
+
+  font-size: 17px;
+}
+
+.overview-risk span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #7891aa;
+
+  font-size: 10px;
+}
+
+.overview-risk strong {
+  display: block;
+
+  font-size: 13px;
+
+  font-weight: 800;
+}
+
+.overview-risk.high {
+  border-color: rgba(231, 113, 113, 0.35);
+}
+
+.overview-risk.medium {
+  border-color: rgba(238, 185, 92, 0.35);
+}
+
+.overview-risk.low {
+  border-color: rgba(77, 212, 154, 0.3);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+  width: min(1050px, calc(100% - 32px));
+
+  margin: 35px auto 0;
+
+  padding: 30px 0 38px;
+
+  border-top: 1px solid #182e44;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  color: #637c95;
+
+  font-size: 12px;
+
+  text-align: center;
+}
+
+footer span:first-child {
+  color: #8da5bd;
+
+  font-weight: 700;
+}
+
+footer span:last-child {
+  color: #637c95;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .header,
+  .main,
+  footer {
+    width: min(100% - 24px, 1050px);
+  }
+
+  /*
+   * Stack the three weather cards when the screen
+   * becomes too narrow.
+   */
+  .weather-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forecast-grid {
+    overflow-x: auto;
+
+    grid-template-columns:
+      repeat(7, 130px);
+
+    padding-bottom: 8px;
+  }
+
+  .forecast-card {
+    min-width: 130px;
+  }
+
+  .assistant {
+    padding: 38px 30px;
+  }
+
+  .response-stats {
+    grid-template-columns:
+      repeat(3, 1fr);
+  }
+}
+
+/* =========================================================
+   LOGO RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .brand-logo {
+    width: 250px;
+  }
+
+  .header-status {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .header {
+    padding: 20px 0;
+  }
+
+  .brand-logo {
+    width: 225px;
+  }
+
+  .header-status {
+    font-size: 10px;
+  }
+
+  .hero {
+    padding: 50px 0 35px;
+  }
+
+  .hero h2 {
+    font-size: 38px;
+  }
+
+  .hero-text {
+    font-size: 14px;
+  }
+
+  .search-box {
+    min-height: 52px;
+  }
+
+  .search-box input {
+    font-size: 14px;
+  }
+
+  .search-box button {
+    padding: 0 17px;
+  }
+
+  .weather-card {
+    padding: 23px 18px;
+  }
+
+  .main-weather h3 {
+    font-size: 20px;
+  }
+
+  .temperature {
+    font-size: 56px;
+
+    margin-top: 34px;
+  }
+
+  .weather-details span,
+  .extra-weather span {
+    font-size: 10px;
+  }
+
+  .weather-details strong,
+  .extra-weather strong {
+    font-size: 13px;
+  }
+
+  .ai-message {
+    font-size: 13px;
+  }
+
+  /* AQI */
+
+  .aqi-number {
+    font-size: 48px;
+  }
+
+  .aqi-status {
+    max-width: 160px;
+
+    font-size: 9px;
+  }
+
+  .temperature-trend {
+    padding: 22px 10px 16px;
+  }
+
+  .trend-chart {
+    overflow-x: auto;
+  }
+
+  .trend-svg {
+    min-width: 650px;
+  }
+
+  .assistant {
+    margin-top: 30px;
+
+    padding: 32px 17px;
+  }
+
+  .assistant h3 {
+    font-size: 21px;
+  }
+
+  .assistant-content>p:not(.label):not(.error-message) {
+    font-size: 13px;
+  }
+
+  /* Language selector */
+
+  .language-selector {
+    gap: 9px;
+  }
+
+  .language-selector label {
+    font-size: 13px;
+  }
+
+  .language-selector select {
+    min-width: 135px;
+
+    padding: 9px 12px;
+
+    font-size: 13px;
+  }
+
+  /* AI form */
+
+  .ai-form {
+    flex-direction: column;
+  }
+
+  .voice-input-wrapper {
+    width: 100%;
+  }
+
+  .voice-input-wrapper input {
+    width: 100%;
+
+    height: 48px;
+
+    padding-right: 52px;
+  }
+
+  .voice-button {
+    width: 34px;
+
+    height: 34px;
+
+    min-width: 34px;
+
+    min-height: 34px;
+
+    right: 7px;
+  }
+
+  .ai-submit-button {
+    width: 100%;
+
+    height: 46px;
+  }
+
+  .quick-question-list {
+    gap: 8px;
+  }
+
+  .quick-question-list button {
+    font-size: 12px;
+
+    padding: 9px 12px;
+  }
+
+  .ai-response {
+    padding: 20px 14px;
+  }
+
+  .response-header {
+    flex-direction: column;
+
+    gap: 7px;
+  }
+
+  .response-header span:last-child {
+    padding-left: 0;
+
+    border-left: none;
+  }
+
+  .ai-answer-box {
+    padding: 16px;
+  }
+
+  .response-answer {
+    font-size: 14px;
+
+    line-height: 1.7;
+  }
+
+  .response-stats {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .risk-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+
+    padding-bottom: 30px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+  .header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    background: transparent;
+  }
+
+  .brand-logo {
+    width: 220px;
+  }
+
+  .header-status {
+    font-size: 10px;
+  }
+
+  .aqi-main {
+    gap: 12px;
+  }
+
+  .aqi-number {
+    font-size: 44px;
+  }
+
+  .aqi-status {
+    max-width: 145px;
+
+    padding: 6px 9px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  .header,
+  .main,
+  footer {
+    width: calc(100% - 16px);
+  }
+
+  .header-status {
+    display: none;
+  }
+
+  .hero {
+    padding-top: 40px;
+  }
+
+  .hero h2 {
+    font-size: 32px;
+  }
+
+  .hero-text {
+    font-size: 13px;
+  }
+
+  .search-box {
+    flex-wrap: wrap;
+
+    padding: 5px;
+  }
+
+  .search-box input {
+    width: calc(100% - 45px);
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+
+  .weather-details {
+    gap: 4px;
+  }
+
+  .extra-weather {
+    gap: 4px;
+  }
+
+  .temperature {
+    font-size: 50px;
+  }
+
+  .forecast-grid {
+    grid-template-columns:
+      repeat(7, 120px);
+  }
+
+  .forecast-card {
+    min-width: 120px;
+  }
+
+  .assistant {
+    padding: 28px 13px;
+  }
+
+  .language-selector {
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .language-selector select {
+    width: 100%;
+
+    max-width: 180px;
+  }
+
+  .response-stats {
+    gap: 7px;
+  }
+
+  .overview-risk {
+    padding: 12px;
+  }
+
+  .aqi-details {
+    gap: 7px;
+  }
+
+  .aqi-details>div {
+    padding: 12px 9px;
+  }
+
+  .aqi-details strong {
+    font-size: 12px;
+  }
+}
