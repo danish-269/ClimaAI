@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://climaai-backend.onrender.com";
 
 function getWeatherInfo(code) {
   if (code === 0) return { icon: "☀️", text: "Clear sky" };
