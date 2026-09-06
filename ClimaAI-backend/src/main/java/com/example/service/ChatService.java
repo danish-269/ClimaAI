@@ -18,7 +18,7 @@ public class ChatService {
         private final LocationService locationService;
 
         public ChatService(
-                        @Value("${gemini.api.key}") String apiKey,
+                        @Value("${GEMINI_API_KEY}") String apiKey,
                         WeatherService weatherService,
                         DecisionService decisionService,
                         LocationService locationService) {
