@@ -184,8 +184,15 @@ public class WeatherService {
                 HttpResponse<String> weatherResponse = weatherFuture.join();
 
                 if (weatherResponse.statusCode() != 200) {
+                        System.err.println("========================================");
+                        System.err.println("OPEN-METEO WEATHER API ERROR");
+                        System.err.println("Status: " + weatherResponse.statusCode());
+                        System.err.println("Response: " + weatherResponse.body());
+                        System.err.println("========================================");
+
                         throw new RuntimeException(
-                                        "Weather service is unavailable right now.");
+                                        "Weather service returned HTTP "
+                                                        + weatherResponse.statusCode());
                 }
 
                 JsonNode weatherData = objectMapper.readTree(
