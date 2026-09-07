@@ -32,6 +32,7 @@ function getWeatherInfo(code) {
 
 function App() {
   const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -267,27 +268,32 @@ function App() {
     e.preventDefault();
 
     const trimmedCity = city.trim();
+    const trimmedCountry = country.trim();
 
     if (!trimmedCity) {
       setError("Please enter a city.");
       return;
     }
 
-    const searchCity =
+    const normalizedCity =
       trimmedCity.toLowerCase() === "bangalore"
         ? "Bengaluru"
         : trimmedCity;
 
+    // If country is provided, send both.
+    // Otherwise keep normal city-only search.
+    const searchLocation = trimmedCountry
+      ? `${normalizedCity}, ${trimmedCountry}`
+      : normalizedCity;
+
     setLoading(true);
     setError("");
     setAiError("");
-
-    // Clear previous AI result immediately.
     setAiResponse(null);
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/weather?city=${encodeURIComponent(searchCity)}`
+        `${API_BASE}/api/weather?city=${encodeURIComponent(searchLocation)}`
       );
 
       if (!response.ok) {
@@ -298,26 +304,22 @@ function App() {
 
       const data = await response.json();
 
-      console.log(
-        "Weather response:",
-        data
-      );
+      console.log("Weather response:", data);
 
       setWeather(data);
 
-      // Keep the searched city synchronized.
-      setCity(data.city || searchCity);
+      // Keep city/country synchronized with backend result.
+      setCity(data.city || normalizedCity);
+      setCountry(data.country || trimmedCountry);
+
     } catch (err) {
-      console.error(
-        "Weather error:",
-        err
-      );
+      console.error("Weather error:", err);
 
       setWeather(null);
       setAiResponse(null);
 
       setError(
-        "Could not load weather. Make sure the ClimaAI backend is running."
+        "Could not load weather. Please check the city and country."
       );
     } finally {
       setLoading(false);
@@ -338,6 +340,14 @@ function App() {
     const selectedCity =
       weather?.city?.trim();
 
+    const selectedCountry =
+      weather?.country?.trim();
+
+    const selectedLocation =
+      selectedCountry
+        ? `${selectedCity}, ${selectedCountry}`
+        : selectedCity;
+
     if (!selectedCity) {
       return message;
     }
@@ -346,7 +356,7 @@ function App() {
       message
         .toLowerCase()
         .includes(
-          selectedCity.toLowerCase()
+          selectedLocation.toLowerCase()
         );
 
     let weatherQuestion = message;
@@ -358,10 +368,10 @@ function App() {
     if (!cityAlreadyIncluded) {
       if (message.endsWith("?")) {
         weatherQuestion =
-          `${message.slice(0, -1)} in ${selectedCity}?`;
+          `${message.slice(0, -1)} in ${selectedLocation}?`;
       } else {
         weatherQuestion =
-          `${message} in ${selectedCity}`;
+          `${message} in ${selectedLocation}`;
       }
     }
 
@@ -646,10 +656,19 @@ ${languageInstruction}`;
 
             <input
               type="text"
-              placeholder="Search for a city..."
+              placeholder="City e.g. Delhi"
               value={city}
               onChange={(e) =>
                 setCity(e.target.value)
+              }
+            />
+
+            <input
+              type="text"
+              placeholder="Country e.g. India"
+              value={country}
+              onChange={(e) =>
+                setCountry(e.target.value)
               }
             />
 
@@ -657,9 +676,7 @@ ${languageInstruction}`;
               type="submit"
               disabled={loading}
             >
-              {loading
-                ? "Loading..."
-                : "Search"}
+              {loading ? "Loading..." : "Search"}
             </button>
 
           </form>
