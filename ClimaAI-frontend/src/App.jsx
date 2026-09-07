@@ -1168,7 +1168,7 @@ ${languageInstruction}`;
                       </p>
 
                       <h4>
-                        7-day temperature outlook
+                        {weather?.daily?.time?.length || 0}-day temperature outlook
                       </h4>
 
                     </div>
