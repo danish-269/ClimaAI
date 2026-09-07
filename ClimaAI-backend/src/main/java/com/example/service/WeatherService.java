@@ -804,32 +804,49 @@ public class WeatherService {
 
                                 double pm25 = aq.has("pm2_5")
                                                 ? aq.get("pm2_5").asDouble()
-                                                : 0.0;
+                                                : -1;
 
                                 double pm10 = aq.has("pm10")
                                                 ? aq.get("pm10").asDouble()
-                                                : 0.0;
-
-                                double aqi = aq.has("us-epa-index")
-                                                ? aq.get("us-epa-index").asDouble()
                                                 : -1;
+
+                                // WeatherAPI's us-epa-index is only a category
+                                // (1-6), not the actual numerical AQI.
+                                //
+                                // Therefore calculate numerical US AQI from
+                                // PM2.5 and PM10 instead.
+
+                                double pm25Aqi = calculatePm25Aqi(pm25);
+
+                                double pm10Aqi = calculatePm10Aqi(pm10);
+
+                                double actualAqi = -1;
+
+                                if (pm25Aqi >= 0 && pm10Aqi >= 0) {
+                                        actualAqi = Math.max(
+                                                        pm25Aqi,
+                                                        pm10Aqi);
+                                } else if (pm25Aqi >= 0) {
+                                        actualAqi = pm25Aqi;
+                                } else if (pm10Aqi >= 0) {
+                                        actualAqi = pm10Aqi;
+                                }
 
                                 airQuality.put(
                                                 "us_aqi",
-                                                aqi);
+                                                actualAqi);
 
                                 airQuality.put(
                                                 "pm2_5",
-                                                pm25);
+                                                pm25 >= 0 ? pm25 : 0.0);
 
                                 airQuality.put(
                                                 "pm10",
-                                                pm10);
+                                                pm10 >= 0 ? pm10 : 0.0);
 
                                 airQuality.put(
                                                 "status",
-                                                getWeatherApiAqiStatus(
-                                                                aqi));
+                                                getAqiStatus(actualAqi));
 
                                 return airQuality;
                         }
@@ -858,6 +875,152 @@ public class WeatherService {
                                 "Unavailable");
 
                 return airQuality;
+        }
+
+        private double calculatePm25Aqi(double pm25) {
+
+                if (pm25 < 0) {
+                        return -1;
+                }
+
+                // EPA requires PM2.5 concentration to be truncated
+                // to one decimal place.
+                double concentration = Math.floor(pm25 * 10.0) / 10.0;
+
+                if (concentration <= 9.0) {
+                        return interpolate(
+                                        concentration,
+                                        0.0,
+                                        9.0,
+                                        0,
+                                        50);
+                }
+
+                if (concentration <= 35.4) {
+                        return interpolate(
+                                        concentration,
+                                        9.1,
+                                        35.4,
+                                        51,
+                                        100);
+                }
+
+                if (concentration <= 55.4) {
+                        return interpolate(
+                                        concentration,
+                                        35.5,
+                                        55.4,
+                                        101,
+                                        150);
+                }
+
+                if (concentration <= 125.4) {
+                        return interpolate(
+                                        concentration,
+                                        55.5,
+                                        125.4,
+                                        151,
+                                        200);
+                }
+
+                if (concentration <= 225.4) {
+                        return interpolate(
+                                        concentration,
+                                        125.5,
+                                        225.4,
+                                        201,
+                                        300);
+                }
+
+                if (concentration <= 325.4) {
+                        return interpolate(
+                                        concentration,
+                                        225.5,
+                                        325.4,
+                                        301,
+                                        500);
+                }
+
+                return 500;
+        }
+
+        private double calculatePm10Aqi(double pm10) {
+
+                if (pm10 < 0) {
+                        return -1;
+                }
+
+                // PM10 concentration is truncated to an integer.
+                double concentration = Math.floor(pm10);
+
+                if (concentration <= 54) {
+                        return interpolate(
+                                        concentration,
+                                        0,
+                                        54,
+                                        0,
+                                        50);
+                }
+
+                if (concentration <= 154) {
+                        return interpolate(
+                                        concentration,
+                                        55,
+                                        154,
+                                        51,
+                                        100);
+                }
+
+                if (concentration <= 254) {
+                        return interpolate(
+                                        concentration,
+                                        155,
+                                        254,
+                                        101,
+                                        150);
+                }
+
+                if (concentration <= 354) {
+                        return interpolate(
+                                        concentration,
+                                        255,
+                                        354,
+                                        151,
+                                        200);
+                }
+
+                if (concentration <= 424) {
+                        return interpolate(
+                                        concentration,
+                                        355,
+                                        424,
+                                        201,
+                                        300);
+                }
+
+                if (concentration <= 504) {
+                        return interpolate(
+                                        concentration,
+                                        425,
+                                        504,
+                                        301,
+                                        500);
+                }
+
+                return 500;
+        }
+
+        private double interpolate(
+                        double concentration,
+                        double concentrationLow,
+                        double concentrationHigh,
+                        double aqiLow,
+                        double aqiHigh) {
+
+                return ((aqiHigh - aqiLow)
+                                / (concentrationHigh - concentrationLow))
+                                * (concentration - concentrationLow)
+                                + aqiLow;
         }
 
         // =============================================================
