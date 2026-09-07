@@ -1028,7 +1028,7 @@ ${languageInstruction}`;
                     </p>
 
                     <h3>
-                      Next 7 days
+                      Next {weather?.daily?.time?.length || 0} days
                     </h3>
 
                   </div>
