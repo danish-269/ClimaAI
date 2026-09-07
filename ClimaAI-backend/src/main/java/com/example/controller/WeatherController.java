@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import tools.jackson.databind.JsonNode;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class WeatherController {
 
     private final WeatherService weatherService;
@@ -36,8 +38,7 @@ public class WeatherController {
     public String analyzeWeather(
             @RequestParam String city) throws Exception {
 
-        JsonNode weather =
-                weatherService.getWeather(city);
+        JsonNode weather = weatherService.getWeather(city);
 
         return decisionService.analyzeWeather(weather);
     }
